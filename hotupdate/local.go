@@ -12,7 +12,7 @@ import (
 func HotUpdateVersionGetRoute(w http.ResponseWriter, r *http.Request) {
 	v := XVersion{Platform: asahi.Parameter(r, "device")}
 	if has, _ := db.Select(&v); !has { 
-		asahi.Handle(reply.RespondWithResult(w, http.StatusNotFound, ""), "HotUpdateVerify"); return
+		asahi.Handle(reply.RespondWithResult(w, http.StatusNotFound, ""), "HotUpdateVersionGetRoute"); return
 	}
 	asahi.Handle(reply.RespondWithJSON(w, http.StatusOK, v), "HotUpdateVersionGetRoute")
 }
