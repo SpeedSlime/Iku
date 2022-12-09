@@ -3,6 +3,6 @@
  "address": "localhost",
  "assets": "./assets/",
  "experimental": false,
- "dsn": "root:EWBall1234554321@tcp(127.0.0.1:3306)/SpeedSlime?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&multiStatements=true",
+ "dsn": "root:EWBall1234554321@tcp(localhost:3306)/SpeedSlime?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true&multiStatements=true",
  "drv": "mysql"
 }
