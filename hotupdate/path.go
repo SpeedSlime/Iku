@@ -7,7 +7,7 @@ import (
 )
 
 func Routes() []router.Route {
-	asahi.Handle(db.Create(XVersion{}), "hotupdate.Routes")
+	asahi.Handle(db.Create(XVersion{}), "Routes")
 	return []router.Route{
 		router.NewGetRoute("/hotupdate/{device}/version", true, false, HotUpdateVersionGetRoute),
 		router.NewGetRoute("/hotupdate/{device}/assets/{file}", true, false, HotUpdateDownloadGetRoute),
