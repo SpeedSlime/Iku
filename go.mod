@@ -2,7 +2,7 @@ module github.com/SpeedSlime/Iku
 
 go 1.18
 
-require github.com/SpeedSlime/Asahi v1.2.8
+require github.com/SpeedSlime/Asahi v1.3.1
 
 require (
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
@@ -19,7 +19,7 @@ require (
 require (
 	github.com/go-chi/chi v1.5.4
 	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/mattn/go-isatty v0.0.16 // indirect
-	github.com/rs/zerolog v1.28.0 // indirect
-	golang.org/x/sys v0.3.0 // indirect
+	github.com/mattn/go-isatty v0.0.17 // indirect
+	github.com/rs/zerolog v1.29.0 // indirect
+	golang.org/x/sys v0.4.0 // indirect
 )

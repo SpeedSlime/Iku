@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/SpeedSlime/Iku/hotupdate"
+	"github.com/SpeedSlime/Iku/lobby"
 
 	"github.com/SpeedSlime/Asahi"
 	"github.com/SpeedSlime/Asahi/middleware"
@@ -25,6 +25,6 @@ func Middlewares() []middleware.Middleware {
 
 func Routers() []router.Router {
 	return []router.Router{
-		router.NewRouter(hotupdate.Routes(), true),
+		router.NewRouter(lobby.Routes(), true),
 	}
 }
