@@ -1,22 +1,12 @@
 package lobby
 
-// In this case, all data here is temporary, so no need to store in a seperate table, as this is also fetched on server join.
-// Only data that needs to be stored seperately is round information.
-// Also, We must check no duplicate names!
-
-// type sqlLeaderboard struct {
-// 	RecordID		string	`xorm:"pk varchar(12) not null 'RecordID'"`
-// 	Name			string	`xorm:"varchar(12) not null 'Name'"`
-// 	Seed			string	`xorm:"varchar(12) 'Seed'"`
-// 	Time			int64	`xorm:"bigint notnull 'Time'"`
-// }
-
 type sqlPlayer struct {
 	LobbyID			string	`xorm:"pk varchar(6) not null 'LobbyID'"`
 	Name			string	`xorm:"pk varchar(12) not null 'Name'"`
 	Texture			string	`xorm:"varchar(32) not null 'TexturePath'"`
 	Rank			int64	`xorm:"bigint not null 'Rank'"`
 	Points			int64	`xorm:"bigint not null 'Points'"`
+	Ready			bool	`xorm:"bool not null 'Ready'"`
 	PreviousTime 	int64	`xorm:"bigint not null 'PreviousTime'"`
 }
 
@@ -27,7 +17,7 @@ type sqlLobby struct {
 	MaxPlayers		int64	`xorm:"bigint not null 'MaxPlayer'"`
 	Round			int64	`xorm:"bigint not null 'Round'"`
 	Seed			string	`xorm:"varchar(12) 'Seed'"`
-	InProgress		bool	`xorm:"bool 'InProgress'"`
+	InProgress		bool	`xorm:"bool not null 'InProgress'"`
 }
 
 type jsonPlayer struct {
@@ -36,6 +26,7 @@ type jsonPlayer struct {
 	Rank			int64	`json:"rank"`
 	Points			int64	`json:"points"`
 	PreviousTime	int64	`json:"ts"`
+	Ready			bool	`json:"isReady"`
 }
 
 type jsonLobby struct {

@@ -14,6 +14,12 @@ github.com/SpeedSlime/Asahi v1.3.0 h1:v9SPxNUl4gdrVRbTB3lIDbxbMgyDx5dXZ7Jix4ERyz
 github.com/SpeedSlime/Asahi v1.3.0/go.mod h1:KekNsFr2xlv5uwwddrIvGSL4Kik0ekT5jYZXURuWL54=
 github.com/SpeedSlime/Asahi v1.3.1 h1:sf9MFKQ2tZW2wgAM5e4aWmIM/pT0cvwnuB3VX6X5b14=
 github.com/SpeedSlime/Asahi v1.3.1/go.mod h1:KekNsFr2xlv5uwwddrIvGSL4Kik0ekT5jYZXURuWL54=
+github.com/SpeedSlime/Asahi v1.3.2 h1:pp75oVdSr6lcheSzG3xndmwJWcu56yuRFRLf+HTRzLc=
+github.com/SpeedSlime/Asahi v1.3.2/go.mod h1:KekNsFr2xlv5uwwddrIvGSL4Kik0ekT5jYZXURuWL54=
+github.com/SpeedSlime/Asahi v1.3.3 h1:1dVA4YNGv3BkHCYr6YaqIN6GmjTYTDv7g0QhxMogQjk=
+github.com/SpeedSlime/Asahi v1.3.3/go.mod h1:KekNsFr2xlv5uwwddrIvGSL4Kik0ekT5jYZXURuWL54=
+github.com/SpeedSlime/Asahi v1.3.4 h1:qEoQiFQF64SklLs7y4cL1Y6xeO+5c0cVBwrGphskzz4=
+github.com/SpeedSlime/Asahi v1.3.4/go.mod h1:KekNsFr2xlv5uwwddrIvGSL4Kik0ekT5jYZXURuWL54=
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=
 github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5/go.mod h1:SkGFH1ia65gfNATL8TAiHDNxPzPdmEL5uirI2Uyuz6c=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=

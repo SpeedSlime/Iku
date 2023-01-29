@@ -14,16 +14,15 @@ func LobbyJoinGetRoute(w http.ResponseWriter, r *http.Request) {
 
 	name := r.URL.Query().Get("name")
 	texture := r.URL.Query().Get("texture")
-	code := asahi.Parameter(r, "code")
+	code := r.URL.Query().Get("code")
 
 	p := sqlPlayer{Name: name, LobbyID: code}
 	// We are searching for duplicate names, so we cannot include texture in the above.
-	if p.Name == "" || texture == "" || len(p.Name) > 12 || len(texture) > 32 {
+	if p.Name == "" || texture == "" || code == "" || len(code) > 6 || len(p.Name) > 12 || len(texture) > 32 {
 		// In this case, it is the clients fault for sending a bad request.
-		asahi.Handle(reply.RespondWithResult(w, http.StatusBadRequest, "Please provide a valid nickname and texture."), "LobbyJoinGetRoute"); return
+		asahi.Handle(reply.RespondWithResult(w, http.StatusForbidden, "You are not allowed to do that."), "LobbyJoinGetRoute"); return
 	}
 
-	// We don't want to pass by reference here, as it could make an unnessesary overwrite.
 	if db.Exists(&p) {
 		// If the user exists, we need to throw an error.
 		asahi.Handle(reply.RespondWithResult(w, http.StatusConflict, "A user in the specified lobby already has that name!"), "LobbyJoinGetRoute"); return
@@ -58,6 +57,7 @@ func LobbyJoinGetRoute(w http.ResponseWriter, r *http.Request) {
 	p.Points = 0
 	p.PreviousTime = 0
 	p.Rank = -1
+	p.Ready = false
 	p.Texture = texture
 	err = db.Insert(&p)
 	if err != nil {
@@ -67,7 +67,7 @@ func LobbyJoinGetRoute(w http.ResponseWriter, r *http.Request) {
 
 	// Construct the json.
 	for _, player := range players {
-		buff :=	jsonPlayer{Name: player.Name, Texture: player.Texture, Rank: player.Rank, Points: player.Points, PreviousTime: player.PreviousTime}
+		buff :=	jsonPlayer{Name: player.Name, Texture: player.Texture, Rank: player.Rank, Points: player.Points, PreviousTime: player.PreviousTime, Ready: player.Ready}
 		lobby.Players = append(lobby.Players, buff)
 	}
 	lobby.EndRound = l.EndRound
@@ -81,3 +81,56 @@ func LobbyJoinGetRoute(w http.ResponseWriter, r *http.Request) {
 	asahi.Handle(reply.RespondWithJSON(w, http.StatusOK, lobby), "LobbyJoinGetRoute")
 }
 
+func LobbyReadyPostRoute(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	code := r.FormValue("code")
+	name := r.FormValue("name")
+
+	p := sqlPlayer{Name: name, LobbyID: code}
+
+	if p.LobbyID == "" || p.Name == "" {
+		// Check for cases that have malformed requests.
+		asahi.Handle(reply.RespondWithResult(w, http.StatusForbidden, "You are not allowed to do that."), "LobbyReadyPostRoute"); return
+	}
+
+	// Make a copy of the params and set ready to true
+	n := p
+	n.Ready = true
+	p.Ready = false
+
+	// We only want to set the "Ready" collumn to true, so we pass the "p" as the cond
+	has, err := db.Update(&n, &p)
+	
+	if err != nil {
+		// If there is an error here, it will be due to a server error.
+		asahi.Handle(reply.RespondWithResult(w, http.StatusInternalServerError, "An unexpected error has occured when readying, you have kicked from the session."), "LobbyReadyPostRoute"); return
+	}
+
+	if !has {
+		// If the user doesn't exist, we need to throw an error.
+		asahi.Handle(reply.RespondWithResult(w, http.StatusConflict, "There has been a desynchronisation between the client and server."), "LobbyReadyPostRoute"); return
+	}
+
+	// We do not need to handle any other logic here in terms of starting the match, as that is handled by the game host.
+	asahi.Handle(reply.RespondWithResult(w, http.StatusOK, "Client is Ready."), "LobbyReadyPostRoute")
+}
+
+
+func LobbyLeavePostRoute(w http.ResponseWriter, r *http.Request) {
+	code := r.FormValue("code")
+	name := r.FormValue("name")
+
+	p := sqlPlayer{Name: name, LobbyID: code}
+
+	if !db.Exists(&p) {
+		// It's possible that multiple requests could be sent in the case of network disconnects, so, we need to notify the client has already left just in case
+		asahi.Handle(reply.RespondWithResult(w, http.StatusOK, "Client has successfully left."), "LobbyLeavePostRoute"); return
+	}
+
+	if err := db.Delete(&p); err != nil {
+		// This is a fatal server error. It *must* be handled.
+		asahi.Handle(reply.RespondWithResult(w, http.StatusInternalServerError, "An unexpected error has occured."), "LobbyLeavePostRoute"); return
+	}
+
+	asahi.Handle(reply.RespondWithResult(w, http.StatusOK, "Client has successfully left."), "LobbyLeavePostRoute")
+}
