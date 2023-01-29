@@ -134,3 +134,7 @@ func LobbyLeavePostRoute(w http.ResponseWriter, r *http.Request) {
 
 	asahi.Handle(reply.RespondWithResult(w, http.StatusOK, "Client has successfully left."), "LobbyLeavePostRoute")
 }
+
+func LobbyStartPostRoute(w http.ResponseWriter, r *http.Request) {
+	
+}
