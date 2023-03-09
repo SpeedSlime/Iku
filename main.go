@@ -1,7 +1,9 @@
 package main
 
 import (
-	"github.com/SpeedSlime/Iku/lobby"
+	"github.com/SpeedSlime/Iku/auth"
+	"github.com/SpeedSlime/Iku/game"
+	
 
 	"github.com/SpeedSlime/Asahi"
 	"github.com/SpeedSlime/Asahi/middleware"
@@ -25,6 +27,7 @@ func Middlewares() []middleware.Middleware {
 
 func Routers() []router.Router {
 	return []router.Router{
-		router.NewRouter(lobby.Routes(), true),
+		router.NewRouter(auth.Routes(), true),
+		router.NewRouter(game.Routes(), true),
 	}
 }
